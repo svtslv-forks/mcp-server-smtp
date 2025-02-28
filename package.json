@@ -1,0 +1,24 @@
+{
+  "name": "smtp-mcp-server",
+  "version": "1.0.0",
+  "description": "SMTP Email MCP Server with template management",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.4.1",
+    "fs-extra": "^11.1.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "^6.10.0"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.8.2",
+    "@types/nodemailer": "^6.4.13",
+    "typescript": "^5.2.2"
+  }
+}
