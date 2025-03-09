@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import { getDefaultSmtpConfig, getSmtpConfigs, SmtpServerConfig, getDefaultEmailTemplate, getEmailTemplates, EmailTemplate, logEmailActivity, EmailLogEntry } from './config.js';
+import { logToFile } from "./index.js";
 
 // Interface for email recipient
 export interface EmailRecipient {
@@ -198,7 +199,7 @@ export async function sendEmail(data: EmailData, smtpConfigId?: string): Promise
     
     return { success: true, message: `Message sent: ${info.messageId}` };
   } catch (error) {
-    console.error('Error sending email:', error);
+    logToFile(`Error sending email: ${error}`);
     
     // Log failed email activity
     if (data.to) {
@@ -306,7 +307,7 @@ export async function sendBulkEmails(data: BulkEmailData, smtpConfigId?: string)
       message: `Successfully sent ${totalSent} out of ${recipients.length} emails`
     };
   } catch (error) {
-    console.error('Error sending bulk emails:', error);
+    logToFile(`Error sending bulk emails: ${error}`);
     return { 
       success: false, 
       totalSent: 0, 

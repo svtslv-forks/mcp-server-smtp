@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
-import path from 'path';
-import os from 'os';
+import * as path from 'path';
+import * as os from 'os';
+import { logToFile } from "./index.js";
 
 // Define types for configurations
 export interface SmtpServerConfig {
@@ -168,7 +169,7 @@ export async function ensureConfigDirectories(): Promise<void> {
       await fs.writeJson(LOG_FILE, [], { spaces: 2 });
     }
   } catch (error) {
-    console.error('Error ensuring config directories:', error);
+    logToFile(`Error ensuring config directories: ${error}`);
     throw error;
   }
 }
@@ -181,7 +182,7 @@ export async function getSmtpConfigs(): Promise<SmtpServerConfig[]> {
     const config = await fs.readJson(SMTP_CONFIG_FILE) as SmtpConfig;
     return config.smtpServers || [];
   } catch (error) {
-    console.error('Error reading SMTP config:', error);
+    logToFile('Error reading SMTP config:');
     return DEFAULT_SMTP_CONFIG.smtpServers;
   }
 }
@@ -204,7 +205,7 @@ export async function saveSmtpConfigs(configs: SmtpServerConfig[]): Promise<bool
     await fs.writeJson(SMTP_CONFIG_FILE, currentConfig, { spaces: 2 });
     return true;
   } catch (error) {
-    console.error('Error saving SMTP config:', error);
+    logToFile('Error saving SMTP config:');
     return false;
   }
 }
@@ -227,7 +228,7 @@ export async function getEmailTemplates(): Promise<EmailTemplate[]> {
     
     return templates;
   } catch (error) {
-    console.error('Error reading email templates:', error);
+    logToFile('Error reading email templates:');
     return [DEFAULT_TEMPLATE, IE_TEMPLATE, ESADE_TEMPLATE];
   }
 }
@@ -249,7 +250,7 @@ export async function saveEmailTemplate(template: EmailTemplate): Promise<boolea
     await fs.writeJson(templatePath, template, { spaces: 2 });
     return true;
   } catch (error) {
-    console.error('Error saving email template:', error);
+    logToFile('Error saving email template:');
     return false;
   }
 }
@@ -263,7 +264,7 @@ export async function deleteEmailTemplate(templateId: string): Promise<boolean> 
     await fs.remove(templatePath);
     return true;
   } catch (error) {
-    console.error('Error deleting email template:', error);
+    logToFile('Error deleting email template:');
     return false;
   }
 }
@@ -287,7 +288,7 @@ export async function logEmailActivity(entry: EmailLogEntry): Promise<boolean> {
     await fs.writeJson(LOG_FILE, logs, { spaces: 2 });
     return true;
   } catch (error) {
-    console.error('Error logging email activity:', error);
+    logToFile('Error logging email activity:');
     return false;
   }
 }
@@ -302,7 +303,7 @@ export async function getEmailLogs(): Promise<EmailLogEntry[]> {
     }
     return [];
   } catch (error) {
-    console.error('Error reading email logs:', error);
+    logToFile('Error reading email logs:');
     return [];
   }
 } 

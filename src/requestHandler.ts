@@ -22,6 +22,7 @@ import {
   BulkEmailData,
   EmailRecipient
 } from "./emailService.js";
+import { logToFile } from "./index.js";
 
 /**
  * Generate a UUID
@@ -123,7 +124,7 @@ export async function setupRequestHandlers(
               result: logs
             };
           } catch (error) {
-            console.error("Error getting email logs:", error);
+            logToFile(`Error getting email logs: ${error}`);
             throw new Error("Failed to retrieve email logs");
           }
         }
@@ -163,7 +164,8 @@ async function handleSendEmail(parameters: any) {
       message: result.message
     };
   } catch (error) {
-    console.error('Error in handleSendEmail:', error);
+    logToFile('Error in handleSendEmail:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -201,7 +203,8 @@ async function handleSendBulkEmails(parameters: any) {
       message: result.message
     };
   } catch (error) {
-    console.error('Error in handleSendBulkEmails:', error);
+    logToFile('Error in handleSendBulkEmails:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       totalSent: 0,
@@ -223,7 +226,8 @@ async function handleGetSmtpConfigs() {
       configs: configs
     };
   } catch (error) {
-    console.error('Error in handleGetSmtpConfigs:', error);
+    logToFile('Error in handleGetSmtpConfigs:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -271,7 +275,8 @@ async function handleAddSmtpConfig(parameters: any) {
       config: newConfig
     };
   } catch (error) {
-    console.error('Error in handleAddSmtpConfig:', error);
+    logToFile('Error in handleAddSmtpConfig:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -332,7 +337,8 @@ async function handleUpdateSmtpConfig(parameters: any) {
       config: updatedConfig
     };
   } catch (error) {
-    console.error('Error in handleUpdateSmtpConfig:', error);
+    logToFile('Error in handleUpdateSmtpConfig:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -385,7 +391,8 @@ async function handleDeleteSmtpConfig(parameters: any) {
       message: 'SMTP configuration deleted successfully'
     };
   } catch (error) {
-    console.error('Error in handleDeleteSmtpConfig:', error);
+    logToFile('Error in handleDeleteSmtpConfig:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -405,7 +412,8 @@ async function handleGetEmailTemplates() {
       templates: templates
     };
   } catch (error) {
-    console.error('Error in handleGetEmailTemplates:', error);
+    logToFile('Error in handleGetEmailTemplates:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -436,7 +444,8 @@ async function handleAddEmailTemplate(parameters: any) {
         if (template.isDefault) {
           template.isDefault = false;
           saveEmailTemplate(template).catch(err => {
-            console.error('Error updating template:', err);
+            logToFile('Error updating template:');
+            logToFile(err instanceof Error ? err.message : 'Unknown error');
           });
         }
       });
@@ -450,7 +459,8 @@ async function handleAddEmailTemplate(parameters: any) {
       template: newTemplate
     };
   } catch (error) {
-    console.error('Error in handleAddEmailTemplate:', error);
+    logToFile('Error in handleAddEmailTemplate:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -493,7 +503,8 @@ async function handleUpdateEmailTemplate(parameters: any) {
           if (t.id !== parameters.id && t.isDefault) {
             t.isDefault = false;
             saveEmailTemplate(t).catch(err => {
-              console.error('Error updating template:', err);
+              logToFile('Error updating template:');
+              logToFile(err instanceof Error ? err.message : 'Unknown error');
             });
           }
         });
@@ -508,7 +519,8 @@ async function handleUpdateEmailTemplate(parameters: any) {
       template: updatedTemplate
     };
   } catch (error) {
-    console.error('Error in handleUpdateEmailTemplate:', error);
+    logToFile('Error in handleUpdateEmailTemplate:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
@@ -551,7 +563,8 @@ async function handleDeleteEmailTemplate(parameters: any) {
       message: 'Email template deleted successfully'
     };
   } catch (error) {
-    console.error('Error in handleDeleteEmailTemplate:', error);
+    logToFile('Error in handleDeleteEmailTemplate:');
+    logToFile(error instanceof Error ? error.message : 'Unknown error');
     return {
       success: false,
       message: error instanceof Error ? error.message : 'Unknown error'
