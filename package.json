@@ -4,6 +4,9 @@
   "description": "SMTP Email MCP Server with template management",
   "main": "build/index.js",
   "type": "module",
+  "bin": {
+    "smtp-mcp-server": "./build/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
